@@ -119,7 +119,7 @@ func (cpu *CPU) Subtract(value uint8) uint8 {
 	cpu.Registers.f.zero = false
 	cpu.Registers.f.subtract = true
 	cpu.Registers.f.carry = overflow
-	cpu.Registers.f.halfCarry = (cpu.Registers.a&0xF)+(value&0xF) > 0xF
+	cpu.Registers.f.halfCarry = (cpu.Registers.a&0xF)-(value&0xF) > 0xF
 	return newValue
 }
 
