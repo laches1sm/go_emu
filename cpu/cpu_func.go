@@ -103,7 +103,7 @@ func (cpu *CPU) Add(value uint8) uint8 {
 }
 
 func overflowAdd(value uint8) (uint8, bool) {
-	if value > math.MaxInt8 {
+	if value > math.MaxUint8 {
 		return value, true
 	} else {
 		return value, false
