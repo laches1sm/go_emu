@@ -93,7 +93,8 @@ func convertUint8FlagReg(val uint8) FlagRegister {
 }
 func (cpu *CPU) Add(value uint8) uint8 {
 	// first, check if value has overflow
-	newValue, overflow := overflowAdd(value)
+	value = value + cpu.Registers.a
+	newValue, overflow := overflowCheck(value)
 	cpu.Registers.f.zero = false
 	cpu.Registers.f.subtract = false
 	cpu.Registers.f.carry = overflow
@@ -102,7 +103,27 @@ func (cpu *CPU) Add(value uint8) uint8 {
 
 }
 
-func overflowAdd(value uint8) (uint8, bool) {
+func (cpu *CPU) AddHL(value uint8) uint8 {
+	value = value + cpu.Registers.h + cpu.Registers.l
+	newValue, overflow := overflowCheck(value)
+	cpu.Registers.f.zero = false
+	cpu.Registers.f.subtract = false
+	cpu.Registers.f.carry = overflow
+	cpu.Registers.f.halfCarry = (cpu.Registers.h&0xF)+(cpu.Registers.l&0xF)+(value&0xF) > 0xF
+	return newValue
+}
+
+func (cpu *CPU) Subtract(value uint8) uint8 {
+	value = value&0xF - cpu.Registers.a&0xF
+	newValue, overflow := overflowCheck(value)
+	cpu.Registers.f.zero = false
+	cpu.Registers.f.subtract = true
+	cpu.Registers.f.carry = overflow
+	cpu.Registers.f.halfCarry = (cpu.Registers.a&0xF)+(value&0xF) > 0xF
+	return newValue
+}
+
+func overflowCheck(value uint8) (uint8, bool) {
 	if value > math.MaxUint8 {
 		return value, true
 	} else {
@@ -153,32 +174,32 @@ func (cpu *CPU) Execute(instruction Instruction) {
 		switch instruction.targetReg {
 		case aReg:
 			value = cpu.Registers.a
-			newVal = cpu.Add(value)
+			newVal = cpu.AddHL(value)
 			cpu.Registers.SetHL(uint16(newVal))
 		case bReg:
 			// TODO: Refactor this!!
 			value = cpu.Registers.b
-			newVal = cpu.Add(value)
+			newVal = cpu.AddHL(value)
 			cpu.Registers.SetHL(uint16(newVal))
 		case cReg:
 			value = cpu.Registers.c
-			newVal = cpu.Add(value)
+			newVal = cpu.AddHL(value)
 			cpu.Registers.SetHL(uint16(newVal))
 		case dReg:
 			value = cpu.Registers.d
-			newVal = cpu.Add(value)
+			newVal = cpu.AddHL(value)
 			cpu.Registers.SetHL(uint16(newVal))
 		case eReg:
 			value = cpu.Registers.e
-			newVal = cpu.Add(value)
+			newVal = cpu.AddHL(value)
 			cpu.Registers.SetHL(uint16(newVal))
 		case hReg:
 			value = cpu.Registers.h
-			newVal = cpu.Add(value)
+			newVal = cpu.AddHL(value)
 			cpu.Registers.SetHL(uint16(newVal))
 		case lReg:
 			value = cpu.Registers.l
-			newVal = cpu.Add(value)
+			newVal = cpu.AddHL(value)
 			cpu.Registers.SetHL(uint16(newVal))
 		default:
 			break
