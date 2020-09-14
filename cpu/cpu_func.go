@@ -132,6 +132,9 @@ func (cpu *CPU) AddC(value uint8) uint8 {
 	newValue = newValue + carryVal
 	return newValue
 }
+
+// TODO: Note to self: CP is similar to this, only that the result does not get stored back into the a register after completion.
+// Just use this function, only afterwards don't store the result in a.
 func (cpu *CPU) Subtract(value uint8) uint8 {
 	value = value&0xF - cpu.Registers.a&0xF
 	newValue, overflow := overflowCheck(value)
@@ -181,6 +184,22 @@ func (cpu *CPU) Xor(value uint8) {
 	cpu.Registers.f.subtract = false
 	cpu.Registers.f.carry = false
 	cpu.Registers.f.halfCarry = false
+}
+
+func (cpu *CPU) Inc(value uint8) uint8 {
+	return value + 1
+}
+
+func (cpu *CPU) Dec(value uint8) uint8 {
+	return value - 1
+}
+
+func (cpu *CPU) ComplementCarryFlag(flagVal bool) {
+	cpu.Registers.f.carry = flagVal
+}
+
+func (cpu *CPU) SetCarryFlag() {
+	cpu.Registers.f.carry = true
 }
 func overflowCheck(value uint8) (uint8, bool) {
 	if value > math.MaxUint8 {
