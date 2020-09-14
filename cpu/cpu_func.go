@@ -15,6 +15,9 @@ type register interface {
 
 type cpu interface {
 	Execute(instruction Instruction)
+	Add(value uint8)
+	AddHL(value uint8)
+	Subtract(value uint8)
 }
 
 const (
@@ -28,6 +31,7 @@ const (
 
 	ADD   = "ADD"
 	ADDHL = "ADDHL"
+	ADDC  = "ADDC"
 	SUB   = "SUB"
 	SBC   = "SBC"
 	AND   = "AND"
@@ -113,6 +117,21 @@ func (cpu *CPU) AddHL(value uint8) uint8 {
 	return newValue
 }
 
+func (cpu *CPU) AddC(value uint8) uint8 {
+	var carryVal uint8
+	value = value + cpu.Registers.a
+	newValue, overflow := overflowCheck(value)
+	cpu.Registers.f.zero = false
+	cpu.Registers.f.subtract = false
+	cpu.Registers.f.carry = overflow
+	if cpu.Registers.f.carry {
+		carryVal = 1 << carryFlagBytePosition
+	}
+	cpu.Registers.f.halfCarry = (cpu.Registers.a&0xF)+(value&0xF)+(carryVal&0xF) > 0xF
+
+	newValue = newValue + carryVal
+	return newValue
+}
 func (cpu *CPU) Subtract(value uint8) uint8 {
 	value = value&0xF - cpu.Registers.a&0xF
 	newValue, overflow := overflowCheck(value)
@@ -123,6 +142,46 @@ func (cpu *CPU) Subtract(value uint8) uint8 {
 	return newValue
 }
 
+func (cpu *CPU) SubtractC(value uint8) uint8 {
+	var carryVal uint8
+	value = value&0xF - cpu.Registers.a&0xF
+	newValue, overflow := overflowCheck(value)
+	cpu.Registers.f.zero = false
+	cpu.Registers.f.subtract = true
+	cpu.Registers.f.carry = overflow
+	if cpu.Registers.f.carry {
+		carryVal = 1 << carryFlagBytePosition
+	}
+	cpu.Registers.f.halfCarry = (cpu.Registers.a&0xF)-(value&0xF)-(carryVal) > 0xF
+	return newValue
+}
+
+func (cpu *CPU) And(value uint8) {
+	andValue := cpu.Registers.a & value
+	cpu.Registers.a = andValue
+	cpu.Registers.f.zero = false
+	cpu.Registers.f.subtract = false
+	cpu.Registers.f.carry = false
+	cpu.Registers.f.halfCarry = false
+}
+
+func (cpu *CPU) Or(value uint8) {
+	orValue := cpu.Registers.a | value
+	cpu.Registers.a = orValue
+	cpu.Registers.f.zero = false
+	cpu.Registers.f.subtract = false
+	cpu.Registers.f.carry = false
+	cpu.Registers.f.halfCarry = false
+}
+
+func (cpu *CPU) Xor(value uint8) {
+	xorValue := cpu.Registers.a ^ value
+	cpu.Registers.a = xorValue
+	cpu.Registers.f.zero = false
+	cpu.Registers.f.subtract = false
+	cpu.Registers.f.carry = false
+	cpu.Registers.f.halfCarry = false
+}
 func overflowCheck(value uint8) (uint8, bool) {
 	if value > math.MaxUint8 {
 		return value, true
