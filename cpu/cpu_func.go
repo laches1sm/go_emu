@@ -1,6 +1,9 @@
 package cpu
 
-import "math"
+import (
+	"math"
+	"math/bits"
+)
 
 type register interface {
 	GetAF() uint16
@@ -200,6 +203,64 @@ func (cpu *CPU) ComplementCarryFlag(flagVal bool) {
 
 func (cpu *CPU) SetCarryFlag() {
 	cpu.Registers.f.carry = true
+}
+func (cpu *CPU) RotateRight(regVal uint8) uint8 {
+	regVal = bits.RotateLeft8(regVal, int(-carryFlagBytePosition))
+	return regVal
+}
+func (cpu *CPU) RotateLeft(regVal uint8) uint8 {
+	regVal = bits.RotateLeft8(regVal, int(carryFlagBytePosition))
+	return regVal
+}
+func (cpu *CPU) RotateRightRegisterNotCarry(rotVal, regVal uint8) uint8 {
+	regVal = bits.RotateLeft8(regVal, int(-rotVal))
+	return regVal
+}
+
+func (cpu *CPU) RotateLeftRegisterNotCarry(rotVal, regVal uint8) uint8 {
+	regVal = bits.RotateLeft8(regVal, int(rotVal))
+	return regVal
+}
+
+func (cpu *CPU) RotateRightARegister() {
+	// Golang is weird, in that the bits package lets you rotate left, but to rotate right you have to supply the the carry as a negative.
+	// There's a good reason behind this, right? I guess it makes sense, but lazy old me wants an actual function, goddamnit!!
+	newAVal := bits.RotateLeft8(cpu.Registers.a, int(-carryFlagBytePosition))
+	cpu.Registers.a = newAVal
+}
+
+func (cpu *CPU) RotateLeftARegister() {
+	newAVal := bits.RotateLeft8(cpu.Registers.a, int(carryFlagBytePosition))
+	cpu.Registers.a = newAVal
+}
+
+func (cpu *CPU) RotateRightARegisterNotCarry(rotVal uint8) {
+	newAVal := bits.RotateLeft8(cpu.Registers.a, int(-rotVal))
+	cpu.Registers.a = newAVal
+}
+
+func (cpu *CPU) RotateLeftARegisterNotCarry(rotVal uint8) {
+	newAVal := bits.RotateLeft8(cpu.Registers.a, int(rotVal))
+	cpu.Registers.a = newAVal
+}
+
+func (cpu *CPU) Complement(val uint8) {
+	cpu.Registers.a = ^val
+}
+func (cpu *CPU) BitSet(regVal uint8, pos uint8) bool {
+	val := regVal & (1 << pos)
+	return (val > 0)
+}
+
+func (cpu *CPU) Reset(regVal uint8, pos uint8) uint8 {
+	var mask uint8
+	mask = ^(1 << pos)
+	regVal &= mask
+	return regVal
+}
+func (cpu *CPU) Set(regVal uint8, pos uint8) uint8 {
+	regVal |= (1 << pos)
+	return regVal
 }
 func overflowCheck(value uint8) (uint8, bool) {
 	if value > math.MaxUint8 {
