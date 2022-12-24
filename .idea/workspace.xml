@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3d17363e-2733-4c2a-ae2a-b5a990b89249" name="Default Changelist" comment="muggins forgot to implement ADDHL properly, added">
+      <change beforePath="$PROJECT_DIR$/cpu/cpu_func.go" beforeDir="false" afterPath="$PROJECT_DIR$/cpu/cpu_func.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" path="/usr/lib/go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1h9oktp3Vq2Efx8kRlvs6eYgsS3" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="GO_FMT" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="implemented ADD and ADDHL" />
+    <MESSAGE value="small oops with MaxInt8 to MaxUint8" />
+    <MESSAGE value="muggins forgot to implement ADDHL properly, added" />
+    <MESSAGE value="Implemented SUBC, ADDC, AND, OR, and XOR." />
+    <MESSAGE value="Implemented INC, DEC, CCF, SCF" />
+    <MESSAGE value="More implementations of rotation and bit setting/resetting functions." />
+    <option name="LAST_COMMIT_MESSAGE" value="More implementations of rotation and bit setting/resetting functions." />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="648" y="260" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1602864016175">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="648" y="260" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1044@0.0.1920.1044" timestamp="1602864016175" />
+    <state x="560" y="258" key="Vcs.Push.Dialog.v2" timestamp="1600128634887">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="560" y="258" key="Vcs.Push.Dialog.v2/0.0.1920.1044@0.0.1920.1044" timestamp="1600128634887" />
+    <state x="623" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1600100440309">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="623" y="230" width="672" height="678" key="search.everywhere.popup/0.0.1920.1044@0.0.1920.1044" timestamp="1600100440309" />
+  </component>
+</project>

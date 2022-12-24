@@ -262,6 +262,14 @@ func (cpu *CPU) Set(regVal uint8, pos uint8) uint8 {
 	regVal |= (1 << pos)
 	return regVal
 }
+
+func (cpu *CPU) ShiftRightLogical (regVal uint8) uint8{
+	return regVal >> 1
+}
+
+func (cpu *CPU) ShiftLeftArithmetic(regVal uint8) uint8{
+	return regVal << 1
+}
 func overflowCheck(value uint8) (uint8, bool) {
 	if value > math.MaxUint8 {
 		return value, true
